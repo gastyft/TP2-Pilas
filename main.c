@@ -116,7 +116,7 @@ int main()
     }
     while(ejercicio!=0);
     printf("\nTP2 TERMINADO\n");
-    printf("\nVersion 1.0\n");
+    printf("\nVersion 1.1\n");
     return 0;
 }
 void ejercicio1()
@@ -293,7 +293,6 @@ void ejercicio5()
     mostrar(&ordenada);
     printf("Ingrese un elemento que desee agregar a la pila:\n");
     leer(&pila);
-
     //INICIO ORDEN
     while(!pilavacia(&pila))
     {
@@ -391,16 +390,16 @@ void ejercicio9()
     }
     while(!pilavacia(&aux2))
     {
-        apilar(&pila,tope(&aux3));
         apilar(&aux3,desapilar(&aux2));
+        //apilar(&pila,tope(&aux3));
     }
-    printf("aux1");
-    mostrar(&aux1);
-    printf("aux3");
+    printf("La pila original es:");
     mostrar(&aux3);
+    printf("La pila invertida es:");
+    mostrar(&aux1);
     while((tope(&aux1)==tope(&aux3))&&!pilavacia(&aux1)&&!pilavacia(&aux3))
     {
-        apilar(&aux2,desapilar(&aux1));
+        apilar(&pila,desapilar(&aux1));
         apilar(&aux2,desapilar(&aux3));
     }
     if(!pilavacia(&aux1)||!pilavacia(&aux3))
