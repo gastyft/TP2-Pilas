@@ -17,9 +17,12 @@ void ejercicio11();
 void ejercicio12();
 void ejercicio13();
 Pila cargarPila();
+float sumarPila(Pila pila);
+float contarPila(Pila pila);
 Pila ordenarPila(Pila pila);
 Pila copiarPila(Pila pila);
 Pila unir2Pilas(Pila pila1,Pila pila2);
+Pila mazoRandom(int m);
 int main()
 {
     int ejercicio;
@@ -120,10 +123,10 @@ int main()
     }
     while(ejercicio!=0);
     printf("\nTP2 TERMINADO\n");
-    printf("\nVersion 1.5\n");
+    printf("\nVersion 1.6\n");
     return 0;
 }
-Pila cargarPila()                           //INICIO FUNCION CARGAR ELEMENTOS EN UNA PILA
+Pila cargarPila()                                       //INICIO FUNCION CARGAR ELEMENTOS EN UNA PILA
 {
     Pila pilaAux;
     char continuar;
@@ -139,8 +142,28 @@ Pila cargarPila()                           //INICIO FUNCION CARGAR ELEMENTOS EN
     }
     while(continuar!='n');
     return pilaAux;
-}                                           //FIN FUNCION CARGAR ELEMENTOS EN UNA PILA
-Pila ordenarPila(Pila pilaDesordenada)      //INICIO FUNCION ORDENAR UNA PILA
+}                                                       //FIN FUNCION CARGAR ELEMENTOS EN UNA PILA
+float sumarPila(Pila pila)                              //INICIO FUNCIONSUMARPILA
+{
+    float suma=0;
+    while(!pilavacia(&pila))
+    {
+        suma=suma+tope(&pila);
+        desapilar(&pila);
+    }
+    return suma;
+}                                                       //FIN FUNCION SUMARPILA
+float contarPila(Pila pila)                             //INICIO FUNCION CONTARPILA
+{
+    float contador=0;
+    while(!pilavacia(&pila))
+    {
+        contador++;
+        desapilar(&pila);
+    }
+    return contador;
+}                                                       //FIN FUNCION CONTARPILA
+Pila ordenarPila(Pila pilaDesordenada)                  //INICIO FUNCION ORDENAR UNA PILA
 {
     Pila ordenada,aux;
     inicpila(&ordenada);
@@ -165,8 +188,8 @@ Pila ordenarPila(Pila pilaDesordenada)      //INICIO FUNCION ORDENAR UNA PILA
         }
     }
     return ordenada;
-}                                           //FIN FUNCION ORDENAR UNA PILA
-Pila copiarPila(Pila pila)                  //INICIO FUNCION COPIAR PILA
+}                                                       //FIN FUNCION ORDENAR UNA PILA
+Pila copiarPila(Pila pila)                              //INICIO FUNCION COPIAR PILA
 {
     Pila aux;
     inicpila(&aux);
@@ -175,68 +198,79 @@ Pila copiarPila(Pila pila)                  //INICIO FUNCION COPIAR PILA
         apilar(&aux,desapilar(&pila));
     }
     return aux;
-}                                           //FIN FUNCION COPIAR PILA
-Pila unir2Pilas(Pila pila1,Pila pila2)      //INICIO FUNCION UNIR2PILAS
+}                                                       //FIN FUNCION COPIAR PILA
+Pila unir2Pilas(Pila pila1,Pila pila2)                  //INICIO FUNCION UNIR2PILAS
 {
-    Pila aux1,aux2,union12;
-    inicpila(&aux1);
-    inicpila(&aux2);
-    inicpila(&union12);
+    Pila aux,unionPila;
+    inicpila(&aux);
+    inicpila(&unionPila);
     while(!pilavacia(&pila1))
     {
-        apilar(&aux1,desapilar(&pila1));
+        apilar(&aux,desapilar(&pila1));
     }
     while(!pilavacia(&pila2))
     {
-        apilar(&aux1,desapilar(&pila2));
+        apilar(&aux,desapilar(&pila2));
     }
-    aux1=ordenarPila(aux1);                 //FUNCION ORDENARPILA
-    while(!pilavacia(&aux1))
+    unionPila=ordenarPila(aux);                         //FUNCION ORDENARPILA
+    return unionPila;
+}                                                       //FIN FUNCION UNIR2PILAS
+Pila eliminarDuplicados(Pila pila)                      //INICIO FUNCION ELIMINARDUPLICADOS
+{
+    Pila aux,unionPila;
+    inicpila(&unionPila);
+    inicpila(&aux);
+    while(!pilavacia(&pila))
     {
-        if(tope(&aux1)==tope(&union12))
+        if(tope(&pila)==tope(&unionPila))
         {
-            apilar(&aux2,desapilar(&aux1));
+            apilar(&aux,desapilar(&pila));
         }
         else
         {
-            apilar(&union12,desapilar(&aux1));
+            apilar(&unionPila,desapilar(&pila));
         }
     }
-    return union12;
-}                                           //FIN FUNCION UNIR2PILAS
+    return unionPila;
+}                                                       //FIN FUNCION ELIMINARDUPLICADOS
+Pila mazoRandom(int manos)                              //INICIO FUNCION MAZORANDOM
+{
+    Pila mazoAux;
+    inicpila(&mazoAux);
+    int i;
+    time_t t;
+    srand((unsigned) time(&t));                         //INICIALIZA EL GENERADOR DE NUMEROS RANDOM
+    for(i=0;i<4*manos;i++)
+    {
+        apilar(&mazoAux,1+rand()%4);
+    }
+    //mostrar(&mazoAux);
+    return mazoAux;
+}                                                       //FIN MAZORANDOM
 void ejercicio1()
 {
     //Sumar los elementos de una pila. (usar variables)
-    int suma=0;
-    Pila pila,aux;
+    float suma=0;
+    Pila pila;
     inicpila(&pila);
-    inicpila(&aux);
-    pila=cargarPila(pila);                  //FUNCION CARGARPILA
+    pila=cargarPila(pila);                              //FUNCION CARGARPILA
     printf("La pila es:");
     mostrar(&pila);
-    while(!pilavacia(&pila))
-    {
-        suma=suma+tope(&pila);
-        apilar(&aux,desapilar(&pila));
-    }
-    printf("La suma de los elementos de la pila es: %i\n\n",suma);
+    suma=sumarPila(pila);                               //FUNCION SUMARPILA
+    printf("La suma de los elementos de la pila es: %.0f\n\n",suma);
 }
 void ejercicio2()
 {
     //Contar los elementos de una pila. (usar variables)
-    int contador=0;
+    float contador=0;
     Pila pila,aux;
     inicpila(&pila);
     inicpila(&aux);
-    pila=cargarPila(pila);                  //FUNCION CARGARPILA
+    pila=cargarPila(pila);                              //FUNCION CARGARPILA
     printf("La pila es:");
     mostrar(&pila);
-    while(!pilavacia(&pila))
-    {
-        contador++;
-        apilar(&aux,desapilar(&pila));
-    }
-    printf("La cantidad de elementos de la pila es: %i\n\n",contador);
+    contador=contarPila(pila);                          //FUNCION CONTARPILA
+    printf("La cantidad de elementos de la pila es: %.0f\n\n",contador);
 }
 void ejercicio3()
 {
@@ -245,19 +279,11 @@ void ejercicio3()
     Pila pila,aux;
     inicpila(&pila);
     inicpila(&aux);
-    pila=cargarPila(pila);                  //FUNCION CARGARPILA
+    pila=cargarPila(pila);                              //FUNCION CARGARPILA
     printf("La pila es:");
     mostrar(&pila);
-    while(!pilavacia(&pila))
-    {
-        suma=suma+tope(&pila);
-        apilar(&aux,desapilar(&pila));
-    }
-    while(!pilavacia(&aux))
-    {
-        contador++;
-        apilar(&pila,desapilar(&aux));
-    }
+    suma=sumarPila(pila);                               //FUNCION SUMARPILA
+    contador=contarPila(pila);                          //FUNCION CONTARPILA
     promedio=suma/contador;
     printf("El promedio de los valores de la pila es: %.2f\n\n",promedio);
 }
@@ -268,7 +294,7 @@ void ejercicio4()
     inicpila(&pila);
     inicpila(&aux);
     inicpila(&menor);
-    pila=cargarPila(pila);                  //FUNCION CARGARPILA
+    pila=cargarPila(pila);                              //FUNCION CARGARPILA
     printf("La pila es:");
     mostrar(&pila);
     apilar(&menor,desapilar(&pila));
@@ -284,7 +310,7 @@ void ejercicio4()
             apilar(&aux,desapilar(&pila));
         }
     }
-    printf("El menor elemento de la pila es: %i",tope(&menor));
+    printf("El menor elemento de la pila es: %i\n\n",tope(&menor));
 }
 void ejercicio5()
 {
@@ -293,16 +319,16 @@ void ejercicio5()
     inicpila(&pila);
     inicpila(&ordenada);
     inicpila(&aux);
-    pila=cargarPila(pila);                  //FUNCION CARGARPILA
+    pila=cargarPila(pila);                              //FUNCION CARGARPILA
     printf("La pila inicial es:");
     mostrar(&pila);
-    ordenada=ordenarPila(pila);             //FUNCION ORDENARPILA
+    ordenada=ordenarPila(pila);                         //FUNCION ORDENARPILA
     printf("La pila ordenada es:");
     mostrar(&ordenada);
-    printf("Ingrese un elemento que desee agregar a la pila:\n");
+    printf("Ingrese un elemento que desee agregar a la pila:\n\n");
     leer(&ordenada);
-    ordenada=ordenarPila(ordenada);         //FUNCION ORDENARPILA
-    printf("La pila ordenada es:");
+    ordenada=ordenarPila(ordenada);                     //FUNCION ORDENARPILA
+    printf("\nLa pila ordenada es:");
     mostrar(&ordenada);
 }
 void ejercicio6()
@@ -317,7 +343,7 @@ void ejercicio7()
     Pila pila,aux;
     inicpila(&pila);
     inicpila(&aux);
-    pila=cargarPila(pila);                  //FUNCION CARGARPILA
+    pila=cargarPila(pila);                              //FUNCION CARGARPILA
     printf("\nLa pila es:");
     mostrar(&pila);
     printf("Ingrese el elemento que desea buscar: ");
@@ -345,7 +371,7 @@ void ejercicio8()
     inicpila(&pila);
     inicpila(&aux1);
     inicpila(&aux2);
-    pila=cargarPila(pila);                  //FUNCION CARGARPILA
+    pila=cargarPila(pila);                              //FUNCION CARGARPILA
     printf("\nLa pila es:");
     mostrar(&pila);
     printf("Ingrese el elemento que desea eliminar: ");
@@ -361,14 +387,14 @@ void ejercicio8()
     }
     else
     {
-        printf("El elemento buscado esta en la pila y fue eliminado\n\n");
+        printf("El elemento buscado esta en la pila y fue eliminado una sola vez\n\n");
         apilar(&aux2,desapilar(&pila));
     }
-    while(!pilavacia(&aux2))
+    while(!pilavacia(&aux1))
     {
-        apilar(&pila,desapilar(&aux2));
+        apilar(&pila,desapilar(&aux1));
     }
-    printf("La pila con el elemento desapilado es:");
+    printf("La pila final es:");
     mostrar(&pila);
 }
 void ejercicio9()
@@ -379,9 +405,9 @@ void ejercicio9()
     inicpila(&aux1);
     inicpila(&aux2);
     inicpila(&aux3);
-    pila=cargarPila(pila);                  //FUNCION CARGARPILA
-    aux1=copiarPila(pila);                  //FUNCION COPIARPILA
-    aux2=copiarPila(aux1);                  //FUNCION COPIARPILA
+    pila=cargarPila(pila);                              //FUNCION CARGARPILA
+    aux1=copiarPila(pila);                              //FUNCION COPIARPILA
+    aux2=copiarPila(aux1);                              //FUNCION COPIARPILA
     printf("La pila original es:");
     mostrar(&pila);
     while((tope(&aux1)==tope(&aux2))&&!pilavacia(&aux1)&&!pilavacia(&aux2))
@@ -406,48 +432,40 @@ void ejercicio10()
     inicpila(&pilaB);
     inicpila(&unionAB);
     printf("PilaA:\n\n");
-    pilaA=cargarPila(pilaA);                //FUNCION CARGARPILA
+    pilaA=cargarPila(pilaA);                            //FUNCION CARGARPILA
     printf("PilaB:\n\n");
-    pilaB=cargarPila(pilaB);                //FUNCION CARGARPILA
+    pilaB=cargarPila(pilaB);                            //FUNCION CARGARPILA
     printf("Primer conjunto:");
     mostrar(&pilaA);
     printf("Segundo conjunto:");
     mostrar(&pilaB);
-    unionAB=unir2Pilas(pilaA,pilaB);        //FUNCION UNIR2PILAS
+    unionAB=unir2Pilas(pilaA,pilaB);                    //FUNCION UNIR2PILAS
+    unionAB=eliminarDuplicados(unionAB);                //FUNCION ELIMINARDUPLICADOS
     printf("Union de los conjuntos:");
     mostrar(&unionAB);
 }
 void ejercicio11()
 {
     //Intercalar dos pilas ordenadas en forma creciente (ORDENADA1 y ORDENADA2) dejando el resultado en una pila también ordenada en forma creciente (ORDENADAFINAL).
-    Pila pila1,pila2,ordenada1,ordenada2,ordenadaFinal,aux;
+    Pila pila1,pila2,ordenada1,ordenada2,ordenadaFinal;
     inicpila(&pila1);
     inicpila(&pila2);
     inicpila(&ordenada1);
     inicpila(&ordenada2);
     inicpila(&ordenadaFinal);
-    inicpila(&aux);
-    pila1=cargarPila(pila1);                //FUNCION CARGARPILA
-    pila2=cargarPila(pila2);                //FUNCION CARGARPILA
+    pila1=cargarPila(pila1);                            //FUNCION CARGARPILA
+    pila2=cargarPila(pila2);                            //FUNCION CARGARPILA
     printf("La pila1 es:");
     mostrar(&pila1);
     printf("La pila2 es:");
     mostrar(&pila2);
-    ordenada1=ordenarPila(pila1);           //FUNCION ORDENARPILA
-    ordenada2=ordenarPila(pila2);           //FUNCION ORDENARPILA
+    ordenada1=ordenarPila(pila1);                       //FUNCION ORDENARPILA
+    ordenada2=ordenarPila(pila2);                       //FUNCION ORDENARPILA
     printf("La pila1 ordenada es:");
     mostrar(&ordenada1);
     printf("La pila2 ordenada es:");
     mostrar(&ordenada2);
-    while(!pilavacia(&ordenada1))
-    {
-        apilar(&aux,desapilar(&ordenada1));
-    }
-    while(!pilavacia(&ordenada2))
-    {
-        apilar(&aux,desapilar(&ordenada2));
-    }
-    ordenadaFinal=ordenarPila(aux);         //FUNCION ORDENARPILA
+    ordenadaFinal=unir2Pilas(ordenada1,ordenada2);      //FUNCION UNIR2PILAS
     printf("La pila final ordenada es:");
     mostrar(&ordenadaFinal);
 }
@@ -468,22 +486,25 @@ void ejercicio13()
     inicpila(&mazo);
     inicpila(&jugador1);
     inicpila(&jugador2);
-    printf("Ingrese las manos a jugar: ");
-    scanf("%i",&mano);
-    for(i=1;i<5;i++)
-    {
-        apilar(&mazo,i);
-    }
+
+    int manos;
+    printf("Ingrese la cantidad de manos que desea jugar: ");
+    scanf("%i",&manos);
+    mazo=mazoRandom(manos);
+
     printf("\nMazo:");
     mostrar(&mazo);
-    printf("Jugar primera mano: ");
+
+    printf("Enter para jugar la primera mano: ");
     fflush(stdin);
     scanf("%c",&continuar);
-    while(mano!=0)
-    {
-        for(i=0;i<2;i++)
-        {
 
+
+
+    while(!pilavacia(&mazo))
+    {
+        for(i=0;i<2;i++)        //REPARTIR
+        {
             if(suma1<suma2)
             {
                 apilar(&jugador1,desapilar(&mazo));
@@ -494,10 +515,65 @@ void ejercicio13()
                 apilar(&jugador2,desapilar(&mazo));
                 apilar(&jugador1,desapilar(&mazo));
             }
-
-        }
+        }                       //FIN REPARTIR
         printf("\nMano del jugador 1:");
         mostrar(&jugador1);
+
+        suma1=0;
+
+        while(!pilavacia(&jugador1))
+        {
+            suma1=suma1+tope(&jugador1);
+            apilar(&mazo,desapilar(&jugador1));
+        }
+        printf("Mano del jugador 2:");
+
+
+        printf("Mano del jugador 2:");
+        mostrar(&jugador2);
+
+        suma2=0;
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    while(mano!=0)
+    {
+
+        for(i=0;i<2;i++)
+        {
+            if(suma1<suma2)
+            {
+                apilar(&jugador1,desapilar(&mazo));
+                apilar(&jugador2,desapilar(&mazo));
+            }
+            else
+            {
+                apilar(&jugador2,desapilar(&mazo));
+                apilar(&jugador1,desapilar(&mazo));
+            }
+        }
+
+        printf("\nMano del jugador 1:");
+        mostrar(&jugador1);
+
         suma1=0;
         while(!pilavacia(&jugador1))
         {
@@ -506,14 +582,17 @@ void ejercicio13()
         }
         printf("Mano del jugador 2:");
         mostrar(&jugador2);
+
         suma2=0;
         while(!pilavacia(&jugador2))
         {
             suma2=suma2+tope(&jugador2);
             apilar(&mazo,desapilar(&jugador2));
         }
+
         printf("Puntaje de esta ronda del jugador 1: %i\n",suma1);
         printf("Puntaje de esta ronda del jugador 2: %i\n",suma2);
+
         if(suma2>suma1)
         {
             total2=total2+suma2;
@@ -524,7 +603,9 @@ void ejercicio13()
         }
         printf("\nPuntaje total del jugador 1: %i",total1);
         printf("\nPuntaje total del jugador 2: %i\n",total2);
+
         mano--;
+
         if(mano>1)
         {
             printf("\nJugar siguiente mano: ");
