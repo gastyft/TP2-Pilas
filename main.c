@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pila.h"
-
-//FALTA 6 - 8 - 12
-//CORREGIR 10 UNION, NO INTERSECCION
+//FALTA 6 - 12
+//VER SI AGREGO FUNCIONES
 void ejercicio1();
 void ejercicio2();
 void ejercicio3();
@@ -17,6 +16,7 @@ void ejercicio10();
 void ejercicio11();
 void ejercicio12();
 void ejercicio13();
+Pila cargaDatos();
 int main()
 {
     int ejercicio;
@@ -117,18 +117,36 @@ int main()
     }
     while(ejercicio!=0);
     printf("\nTP2 TERMINADO\n");
-    printf("\nVersion 1.2\n");
+    printf("\nVersion 1.3\n");
     return 0;
 }
+//FUNCION CARGA DE DATOS EN UNA PILA
+Pila cargaPila(Pila pilaAux)
+{
+    char continuar;
+    inicpila(&pilaAux);
+    printf("Ingrese un elemento de la pila:\n\n");
+    do
+    {
+        leer(&pilaAux);
+        printf("Desea ingresar otro elemento?\ns = SI\nn = NO\nRespuesta: ");
+        fflush(stdin);
+        scanf("%c",&continuar);
+        printf("\n");
+    }
+    while(continuar!='n');
+    return (pilaAux);
+}
+//FIN FUNCION CARGA DE DATOS EN UNA PILA
 void ejercicio1()
 {
     //Sumar los elementos de una pila. (usar variables)
     int suma=0;
-    char continuar;
+    //char continuar;
     Pila pila,aux;
     inicpila(&pila);
     inicpila(&aux);
-    printf("Ingrese un elemento de la pila:\n\n");
+    /*printf("Ingrese un elemento de la pila:\n\n");
     do
     {
         leer(&pila);
@@ -137,7 +155,8 @@ void ejercicio1()
         scanf("%c",&continuar);
         printf("\n");
     }
-    while(continuar!='n');
+    while(continuar!='n');*/
+    pila=cargaPila(pila);                   //FUNCION CARGAPILA
     printf("La pila es:");
     mostrar(&pila);
     while(!pilavacia(&pila))
@@ -146,17 +165,16 @@ void ejercicio1()
         apilar(&aux,desapilar(&pila));
     }
     printf("La suma de los elementos de la pila es: %i\n\n",suma);
-
 }
 void ejercicio2()
 {
     //Contar los elementos de una pila. (usar variables)
     int contador=0;
-    char continuar;
+    //char continuar;
     Pila pila,aux;
     inicpila(&pila);
     inicpila(&aux);
-    printf("Ingrese un elemento de la pila:\n\n");
+    /*printf("Ingrese un elemento de la pila:\n\n");
     do
     {
         leer(&pila);
@@ -166,7 +184,8 @@ void ejercicio2()
         scanf("%c",&continuar);
         printf("\n");
     }
-    while(continuar!='n');
+    while(continuar!='n');*/
+    pila=cargaPila(pila);                   //FUNCION CARGAPILA
     printf("La pila es:");
     mostrar(&pila);
     while(!pilavacia(&pila))
@@ -180,11 +199,11 @@ void ejercicio3()
 {
     //Calcular el promedio de los valores de una pila. (usar variables)
     float contador=0,suma=0,promedio=0;
-    char continuar;
+    //char continuar;
     Pila pila,aux;
     inicpila(&pila);
     inicpila(&aux);
-    printf("Ingrese un elemento de la pila:\n\n");
+    /*printf("Ingrese un elemento de la pila:\n\n");
     do
     {
         leer(&pila);
@@ -195,7 +214,8 @@ void ejercicio3()
         scanf("%c",&continuar);
         printf("\n");
     }
-    while(continuar!='n');
+    while(continuar!='n');*/
+    pila=cargaPila(pila);                   //FUNCION CARGAPILA
     printf("La pila es:");
     mostrar(&pila);
     while(!pilavacia(&pila))
@@ -214,12 +234,12 @@ void ejercicio3()
 void ejercicio4()
 {
     //Encontrar el menor elemento de una pila y guardarlo en otra. (sin variables, solo pilas)
-    char continuar;
+    //char continuar;
     Pila pila,aux,menor;
     inicpila(&pila);
     inicpila(&aux);
     inicpila(&menor);
-    printf("Ingrese un elemento de la pila:\n\n");
+    /*printf("Ingrese un elemento de la pila:\n\n");
     do
     {
         leer(&pila);
@@ -228,7 +248,8 @@ void ejercicio4()
         scanf("%c",&continuar);
         printf("\n");
     }
-    while(continuar!='n');
+    while(continuar!='n');*/
+    pila=cargaPila(pila);                   //FUNCION CARGAPILA
     printf("La pila es:");
     mostrar(&pila);
     apilar(&menor,desapilar(&pila));
@@ -244,18 +265,17 @@ void ejercicio4()
             apilar(&aux,desapilar(&pila));
         }
     }
-    printf("La pila menor es:");
-    mostrar(&menor);
+    printf("El menor elemento de la pila es: %i",tope(&menor));
 }
 void ejercicio5()
 {
     //Insertar un elemento en una pila ordenada de menor (tope) a mayor (base) de forma tal que se conserve el orden. (sin variables, solo pilas)
-    char continuar;
+    //char continuar;
     Pila pila,ordenada,aux;
     inicpila(&pila);
     inicpila(&ordenada);
     inicpila(&aux);
-    printf("Ingrese un elemento de la pila:\n\n");
+    /*printf("Ingrese un elemento de la pila:\n\n");
     do
     {
         leer(&pila);
@@ -264,7 +284,8 @@ void ejercicio5()
         scanf("%c",&continuar);
         printf("\n");
     }
-    while(continuar!='n');
+    while(continuar!='n');*/
+    pila=cargaPila(pila);                   //FUNCION CARGAPILA
     printf("La pila inicial es:");
     mostrar(&pila);                         //INICIO ORDEN >>
     apilar(&ordenada,desapilar(&pila));
@@ -286,7 +307,7 @@ void ejercicio5()
                 apilar(&ordenada,desapilar(&aux));
             }
         }
-    }                                       //<< FIN ORDEN
+    }                                        //<< FIN ORDEN
     printf("La pila ordenada es:");
     mostrar(&ordenada);
     printf("Ingrese un elemento que desee agregar a la pila:\n");
@@ -322,11 +343,11 @@ void ejercicio7()
 {
     //Determinar si un elemento buscado está dentro de una pila. Al encontrarlo, finalizar la búsqueda.
     int busqueda;
-    char continuar;
+    //char continuar;
     Pila pila,aux;
     inicpila(&pila);
     inicpila(&aux);
-    printf("Ingrese los elementos de la pila:\n");
+    /*printf("Ingrese los elementos de la pila:\n");
     do
     {
         leer(&pila);
@@ -335,11 +356,13 @@ void ejercicio7()
         scanf("%c",&continuar);
         printf("\n");
     }
-    while(continuar!='n');
-    printf("Ingrese el elemento que desea buscar: ");
-    scanf("%i",&busqueda);
+    while(continuar!='n');*/
+    pila=cargaPila(pila);                   //FUNCION CARGAPILA
     printf("\nLa pila es:");
     mostrar(&pila);
+    printf("Ingrese el elemento que desea buscar: ");
+    scanf("%i",&busqueda);
+    printf("\n");
     while((busqueda!=tope(&pila))&&(!pilavacia(&pila)))
     {
         apilar(&aux,desapilar(&pila));
@@ -357,17 +380,13 @@ void ejercicio8()
 {
     //Eliminar un elemento de una pila.
     //El eliminarlo, finalizar el recorrido y dejar el resto en el mismo orden.
-}
-void ejercicio9()
-{
-    //Verificar si una pila DADA es capicúa.
-    char continuar;
-    Pila pila,aux1,aux2,aux3;
+    int busqueda;
+    //char continuar;
+    Pila pila,aux1,aux2;
     inicpila(&pila);
     inicpila(&aux1);
     inicpila(&aux2);
-    inicpila(&aux3);
-    printf("Ingrese un elemento de la pila:\n\n");
+    /*printf("Ingrese los elementos de la pila:\n");
     do
     {
         leer(&pila);
@@ -376,7 +395,53 @@ void ejercicio9()
         scanf("%c",&continuar);
         printf("\n");
     }
-    while(continuar!='n');
+    while(continuar!='n');*/
+    pila=cargaPila(pila);                   //FUNCION CARGAPILA
+    printf("\nLa pila es:");
+    mostrar(&pila);
+    printf("Ingrese el elemento que desea eliminar: ");
+    scanf("%i",&busqueda);
+    printf("\n");
+    while((busqueda!=tope(&pila))&&(!pilavacia(&pila)))
+    {
+        apilar(&aux1,desapilar(&pila));
+    }
+    if(pilavacia(&pila))
+    {
+        printf("El elemento buscado no esta en la pila, por lo que no fue eliminado\n\n");
+    }
+    else
+    {
+        printf("El elemento buscado esta en la pila y fue eliminado\n\n");
+        apilar(&aux2,desapilar(&pila));
+    }
+    while(!pilavacia(&aux2))
+    {
+        apilar(&pila,desapilar(&aux2));
+    }
+    printf("La pila con el elemento desapilado es:");
+    mostrar(&pila);
+}
+void ejercicio9()
+{
+    //Verificar si una pila DADA es capicúa.
+    //char continuar;
+    Pila pila,aux1,aux2,aux3;
+    inicpila(&pila);
+    inicpila(&aux1);
+    inicpila(&aux2);
+    inicpila(&aux3);
+    /*printf("Ingrese un elemento de la pila:\n\n");
+    do
+    {
+        leer(&pila);
+        printf("Desea ingresar otro elemento?\ns = SI\nn = NO\nRespuesta: ");
+        fflush(stdin);
+        scanf("%c",&continuar);
+        printf("\n");
+    }
+    while(continuar!='n');*/
+    pila=cargaPila(pila);                   //FUNCION CARGAPILA
     while(!pilavacia(&pila))
     {
         apilar(&aux1,tope(&pila));
@@ -408,7 +473,7 @@ void ejercicio9()
 void ejercicio10()
 {
     //Dadas dos pilas A y B que simulan conjuntos (cada conjunto no tiene elementos repetidos sobre sí mismo), realizar un programa que calcule en la pila C la operación de unión.
-    char continuarA,continuarB;
+    //char continuarA,continuarB;
     Pila pilaA,pilaB,aux1,aux2,aux3,unionAB;
     inicpila(&pilaA);
     inicpila(&pilaB);
@@ -416,7 +481,7 @@ void ejercicio10()
     inicpila(&aux2);
     inicpila(&aux3);
     inicpila(&unionAB);
-    printf("Ingrese un elemento de la pilaA:\n\n");
+    /*printf("Ingrese un elemento de la pilaA:\n\n");
     do
     {
         leer(&pilaA);
@@ -425,8 +490,9 @@ void ejercicio10()
         scanf("%c",&continuarA);
         printf("\n");
     }
-    while(continuarA!='n');
-    printf("Ingrese un elemento de la pilaB:\n\n");
+    while(continuarA!='n');*/
+    pilaA=cargaPila(pilaA);                   //FUNCION CARGAPILA
+    /*printf("Ingrese un elemento de la pilaB:\n\n");
     do
     {
         leer(&pilaB);
@@ -435,7 +501,8 @@ void ejercicio10()
         scanf("%c",&continuarB);
         printf("\n");
     }
-    while(continuarB!='n');
+    while(continuarB!='n');*/
+    pilaB=cargaPila(pilaB);                   //FUNCION CARGAPILA
     printf("Primer conjunto:");
     mostrar(&pilaA);
     printf("Segundo conjunto:");
@@ -484,7 +551,7 @@ void ejercicio10()
 void ejercicio11()
 {
     //Intercalar dos pilas ordenadas en forma creciente (ORDENADA1 y ORDENADA2) dejando el resultado en una pila también ordenada en forma creciente (ORDENADAFINAL).
-    char continuar1,continuar2;
+    //char continuar1,continuar2;
     Pila pila1,pila2,ordenada1,ordenada2,ordenadaFinal,aux,aux2;
     inicpila(&pila1);
     inicpila(&pila2);
@@ -493,7 +560,7 @@ void ejercicio11()
     inicpila(&ordenadaFinal);
     inicpila(&aux);
     inicpila(&aux2);
-    printf("Ingrese un elemento de la pila1:\n\n");
+    /*printf("Ingrese un elemento de la pila1:\n\n");
     do
     {
         leer(&pila1);
@@ -502,8 +569,9 @@ void ejercicio11()
         scanf("%c",&continuar1);
         printf("\n");
     }
-    while(continuar1!='n');
-    printf("Ingrese un elemento de la pila2:\n\n");
+    while(continuar1!='n');*/
+    pila1=cargaPila(pila1);                   //FUNCION CARGAPILA
+    /*printf("Ingrese un elemento de la pila2:\n\n");
     do
     {
         leer(&pila2);
@@ -512,7 +580,8 @@ void ejercicio11()
         scanf("%c",&continuar2);
         printf("\n");
     }
-    while(continuar2!='n');
+    while(continuar2!='n');*/
+    pila2=cargaPila(pila2);                   //FUNCION CARGAPILA
     printf("La pila1 es:");
     mostrar(&pila1);
     printf("La pila2 es:");

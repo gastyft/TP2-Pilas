@@ -6,7 +6,7 @@
 	<stdio.h>
 	<malloc.h>
 
-1649011414 source:c:\users\usuario\documents\utn\2022\1er cuatrimestre\programación\archivos c\tp2 - pilas avanzadas\main.c
+1649128516 source:c:\users\usuario\documents\utn\2022\1er cuatrimestre\programación\archivos c\tp2 - pilas avanzadas\main.c
 	<stdio.h>
 	<stdlib.h>
 	"pila.h"
@@ -14,4 +14,7 @@
 1490112217 c:\users\usuario\documents\utn\2022\1er cuatrimestre\programación\archivos c\tp2 - pilas avanzadas\pila.h
 	<stdio.h>
 	<malloc.h>
+
+1490112217 source:c:\users\usuario\documents\utn\2022\1er cuatrimestre\programación\archivos c\tp2 - pilas avanzadas\pila.c
+	"pila.h"
 
