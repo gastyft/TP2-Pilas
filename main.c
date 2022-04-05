@@ -22,7 +22,8 @@ float contarPila(Pila pila);
 Pila ordenarPila(Pila pila);
 Pila copiarPila(Pila pila);
 Pila unir2Pilas(Pila pila1,Pila pila2);
-Pila mazoRandom(int m);
+Pila eliminarDuplicados(Pila pila);
+Pila mazoRandom(int manos);
 int main()
 {
     int ejercicio;
@@ -123,7 +124,7 @@ int main()
     }
     while(ejercicio!=0);
     printf("\nTP2 TERMINADO\n");
-    printf("\nVersion 1.6\n");
+    printf("\nVersion 1.7\n");
     return 0;
 }
 Pila cargarPila()                                       //INICIO FUNCION CARGAR ELEMENTOS EN UNA PILA
@@ -480,30 +481,26 @@ void ejercicio13()
     //En caso de empate (y para simplificar) siempre gana el jugador1.
     //Simular la ejecución del juego de tal manera que dada una pila MAZO (con un número de elementos múltiplo de cuatro) distribuya las cartas en las pilas PUNTOSJUG1 y PUNTOSJUG2 como si estos hubieran jugado.
     //Utilizar las pilas auxiliares que crea conveniente.
-    int i,mano,suma1=0,suma2=0,total1=0,total2=0;
+    int i,j1,j2,m,manos,suma1=0,suma2=0,puntaje1=0,puntaje2=0;
     char continuar;
-    Pila mazo,jugador1,jugador2;
+    Pila mazo,jugador1,jugador2,descarte1,descarte2;
     inicpila(&mazo);
     inicpila(&jugador1);
     inicpila(&jugador2);
-
-    int manos;
+    inicpila(&descarte1);
+    inicpila(&descarte2);
     printf("Ingrese la cantidad de manos que desea jugar: ");
     scanf("%i",&manos);
     mazo=mazoRandom(manos);
-
     printf("\nMazo:");
     mostrar(&mazo);
-
     printf("Enter para jugar la primera mano: ");
     fflush(stdin);
     scanf("%c",&continuar);
-
-
-
-    while(!pilavacia(&mazo))
+    for(m=1;m<manos+1;m++)
     {
-        for(i=0;i<2;i++)        //REPARTIR
+        printf("\nMano: %i\n",m);
+        for(i=0;i<2;i++)                                //INICIO REPARTO CARTAS
         {
             if(suma1<suma2)
             {
@@ -515,119 +512,58 @@ void ejercicio13()
                 apilar(&jugador2,desapilar(&mazo));
                 apilar(&jugador1,desapilar(&mazo));
             }
-        }                       //FIN REPARTIR
+        }                                               //FIN REPARTO CARTAS
         printf("\nMano del jugador 1:");
         mostrar(&jugador1);
-
         suma1=0;
-
-        while(!pilavacia(&jugador1))
-        {
-            suma1=suma1+tope(&jugador1);
-            apilar(&mazo,desapilar(&jugador1));
-        }
-        printf("Mano del jugador 2:");
-
-
+        suma1=sumarPila(jugador1);
         printf("Mano del jugador 2:");
         mostrar(&jugador2);
-
         suma2=0;
-
-
-
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    while(mano!=0)
-    {
-
-        for(i=0;i<2;i++)
-        {
-            if(suma1<suma2)
-            {
-                apilar(&jugador1,desapilar(&mazo));
-                apilar(&jugador2,desapilar(&mazo));
-            }
-            else
-            {
-                apilar(&jugador2,desapilar(&mazo));
-                apilar(&jugador1,desapilar(&mazo));
-            }
-        }
-
-        printf("\nMano del jugador 1:");
-        mostrar(&jugador1);
-
-        suma1=0;
-        while(!pilavacia(&jugador1))
-        {
-            suma1=suma1+tope(&jugador1);
-            apilar(&mazo,desapilar(&jugador1));
-        }
-        printf("Mano del jugador 2:");
-        mostrar(&jugador2);
-
-        suma2=0;
-        while(!pilavacia(&jugador2))
-        {
-            suma2=suma2+tope(&jugador2);
-            apilar(&mazo,desapilar(&jugador2));
-        }
-
+        suma2=sumarPila(jugador2);
         printf("Puntaje de esta ronda del jugador 1: %i\n",suma1);
         printf("Puntaje de esta ronda del jugador 2: %i\n",suma2);
-
         if(suma2>suma1)
         {
-            total2=total2+suma2;
+            puntaje2=puntaje2+suma1+suma2;
+            printf("\nEl jugador 2 se queda con los puntos.\n");
+            for(j2=0;j2<2;j2++)                         //INICIO DESCARTE CARTAS
+            {
+                apilar(&descarte2,desapilar(&jugador1));
+                apilar(&descarte2,desapilar(&jugador2));
+            }                                           //FIN DESCARTE CARTAS
         }
         else
         {
-            total1=total1+suma1;
+            puntaje1=puntaje1+suma1+suma2;
+            printf("\nEl jugador 1 se queda con los puntos.\n");
+            for(j1=0;j1<2;j1++)                         //INICIO DESCARTE CARTAS
+            {
+                apilar(&descarte1,desapilar(&jugador1));
+                apilar(&descarte1,desapilar(&jugador2));
+            }                                           //FIN DESCARTE CARTAS
         }
-        printf("\nPuntaje total del jugador 1: %i",total1);
-        printf("\nPuntaje total del jugador 2: %i\n",total2);
-
-        mano--;
-
-        if(mano>1)
+        printf("\nPuntaje total del jugador 1: %i",puntaje1);
+        printf("\nPuntaje total del jugador 2: %i\n",puntaje2);
+        if(m==manos-1)
         {
-            printf("\nJugar siguiente mano: ");
+            printf("\nEnter para jugar la ultima mano: ");
             fflush(stdin);
             scanf("%c",&continuar);
         }
-        else
+        if(m<manos-1)
         {
-            if(mano==1)
-            {
-                printf("\nJugar ultima mano: ");
-                fflush(stdin);
-                scanf("%c",&continuar);
-            }
+            printf("\nEnter para jugar la siguiente mano: ");
+            fflush(stdin);
+            scanf("%c",&continuar);
         }
     }
-    if(total2>total1)
+    if(puntaje2>puntaje1)
     {
-        printf("\nFin del juego: El jugador 2 ha ganado\n\n");
+        printf("\nFin del juego: El jugador 2 ha ganado con %i puntos contra %i puntos del jugador 1.\n\n",puntaje2,puntaje1);
     }
     else
     {
-        printf("\nFin del juego: El jugador 1 ha ganado\n\n");
+        printf("\nFin del juego: El jugador 1 ha ganado con %i puntos contra %i puntos del jugador 2.\n\n",puntaje1,puntaje2);
     }
 }
