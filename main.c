@@ -19,6 +19,7 @@ void ejercicio13();
 Pila cargarPila();
 Pila ordenarPila(Pila pila);
 Pila copiarPila(Pila pila);
+Pila unir2Pilas(Pila pila1,Pila pila2);
 int main()
 {
     int ejercicio;
@@ -119,7 +120,7 @@ int main()
     }
     while(ejercicio!=0);
     printf("\nTP2 TERMINADO\n");
-    printf("\nVersion 1.4\n");
+    printf("\nVersion 1.5\n");
     return 0;
 }
 Pila cargarPila()                           //INICIO FUNCION CARGAR ELEMENTOS EN UNA PILA
@@ -175,6 +176,34 @@ Pila copiarPila(Pila pila)                  //INICIO FUNCION COPIAR PILA
     }
     return aux;
 }                                           //FIN FUNCION COPIAR PILA
+Pila unir2Pilas(Pila pila1,Pila pila2)      //INICIO FUNCION UNIR2PILAS
+{
+    Pila aux1,aux2,union12;
+    inicpila(&aux1);
+    inicpila(&aux2);
+    inicpila(&union12);
+    while(!pilavacia(&pila1))
+    {
+        apilar(&aux1,desapilar(&pila1));
+    }
+    while(!pilavacia(&pila2))
+    {
+        apilar(&aux1,desapilar(&pila2));
+    }
+    aux1=ordenarPila(aux1);                 //FUNCION ORDENARPILA
+    while(!pilavacia(&aux1))
+    {
+        if(tope(&aux1)==tope(&union12))
+        {
+            apilar(&aux2,desapilar(&aux1));
+        }
+        else
+        {
+            apilar(&union12,desapilar(&aux1));
+        }
+    }
+    return union12;
+}                                           //FIN FUNCION UNIR2PILAS
 void ejercicio1()
 {
     //Sumar los elementos de una pila. (usar variables)
@@ -182,7 +211,7 @@ void ejercicio1()
     Pila pila,aux;
     inicpila(&pila);
     inicpila(&aux);
-    pila = cargarPila(pila);                  //FUNCION CARGARPILA
+    pila=cargarPila(pila);                  //FUNCION CARGARPILA
     printf("La pila es:");
     mostrar(&pila);
     while(!pilavacia(&pila))
@@ -372,12 +401,9 @@ void ejercicio9()
 void ejercicio10()
 {
     //Dadas dos pilas A y B que simulan conjuntos (cada conjunto no tiene elementos repetidos sobre sí mismo), realizar un programa que calcule en la pila C la operación de unión.
-    Pila pilaA,pilaB,aux,aux2,aux3,unionAB;
+    Pila pilaA,pilaB,unionAB;
     inicpila(&pilaA);
     inicpila(&pilaB);
-    inicpila(&aux);
-    inicpila(&aux2);
-    inicpila(&aux3);
     inicpila(&unionAB);
     printf("PilaA:\n\n");
     pilaA=cargarPila(pilaA);                //FUNCION CARGARPILA
@@ -387,26 +413,7 @@ void ejercicio10()
     mostrar(&pilaA);
     printf("Segundo conjunto:");
     mostrar(&pilaB);
-    while(!pilavacia(&pilaA))
-    {
-        apilar(&aux,desapilar(&pilaA));
-    }
-    while(!pilavacia(&pilaB))
-    {
-        apilar(&aux,desapilar(&pilaB));
-    }
-    aux2=ordenarPila(aux);                  //FUNCION ORDENARPILA
-    while(!pilavacia(&aux2))                //INICIO UNION >>
-    {
-        if(tope(&aux2)==tope(&unionAB))
-        {
-            apilar(&aux3,desapilar(&aux2));
-        }
-        else
-        {
-            apilar(&unionAB,desapilar(&aux2));
-        }
-    }                                       //<< FIN UNION
+    unionAB=unir2Pilas(pilaA,pilaB);        //FUNCION UNIR2PILAS
     printf("Union de los conjuntos:");
     mostrar(&unionAB);
 }
@@ -440,7 +447,7 @@ void ejercicio11()
     {
         apilar(&aux,desapilar(&ordenada2));
     }
-    ordenadaFinal=ordenarPila(aux);           //FUNCION ORDENARPILA
+    ordenadaFinal=ordenarPila(aux);         //FUNCION ORDENARPILA
     printf("La pila final ordenada es:");
     mostrar(&ordenadaFinal);
 }
