@@ -335,11 +335,50 @@ void ejercicio5()
 void ejercicio6()
 {
     //Usando lo resuelto en el ejercicio 4, pasar los elementos de una pila a otra de forma tal que la segunda pila quede ordenada de mayor (tope) a menor (base).
-    //Esto se llama método de ordenación por selección.
+    //Esto se llama mÃ©todo de ordenaciÃ³n por selecciÃ³n.
+    void ejercicio6()
+{
+    /*6.Usando lo resuelto en el ejercicio 4, pasar los elementos de una pila a otra de forma tal
+    que la segunda pila quede ordenada de mayor (tope) a menor (base).
+     Esto se llama mÃ©todo de ordenaciÃ³n por selecciÃ³n. */
+
+//Lo que hice inverti los mayores o menores segun correspondia y asi anduvo. 
+    Pila pila4,aux,aux1;
+    inicpila(&pila4);
+    inicpila(&aux);
+    inicpila(&aux1);
+    pila4=cargarPila();
+
+    while (!pilavacia(&pila4))
+    {
+        if(tope(&pila4)<tope(&aux))
+        {
+            apilar(&aux,desapilar(&pila4));
+        }
+        else
+        {
+            while(tope(&pila4)> tope(&aux))
+            {
+                apilar(&aux1, desapilar(&aux));
+            }
+
+            apilar(&aux, desapilar(&pila4));
+            while (!pilavacia(&aux1))
+            {
+                apilar(&aux,desapilar(&aux1));
+            }
+        }
+    }
+    while(!pilavacia(&aux))
+    {
+        apilar(&pila4,desapilar(&aux));
+    }
+    printf("La pila ordenada es:\n");
+    mostrar(&pila4);
 }
 void ejercicio7()
 {
-    //Determinar si un elemento buscado está dentro de una pila. Al encontrarlo, finalizar la búsqueda.
+    //Determinar si un elemento buscado estÃ¡ dentro de una pila. Al encontrarlo, finalizar la bÃºsqueda.
     int busqueda;
     Pila pila,aux;
     inicpila(&pila);
@@ -400,7 +439,7 @@ void ejercicio8()
 }
 void ejercicio9()
 {
-    //Verificar si una pila DADA es capicúa.
+    //Verificar si una pila DADA es capicÃºa.
     Pila pila,aux1,aux2,aux3;
     inicpila(&pila);
     inicpila(&aux1);
@@ -427,7 +466,7 @@ void ejercicio9()
 }
 void ejercicio10()
 {
-    //Dadas dos pilas A y B que simulan conjuntos (cada conjunto no tiene elementos repetidos sobre sí mismo), realizar un programa que calcule en la pila C la operación de unión.
+    //Dadas dos pilas A y B que simulan conjuntos (cada conjunto no tiene elementos repetidos sobre sÃ­ mismo), realizar un programa que calcule en la pila C la operaciÃ³n de uniÃ³n.
     Pila pilaA,pilaB,unionAB;
     inicpila(&pilaA);
     inicpila(&pilaB);
@@ -447,7 +486,7 @@ void ejercicio10()
 }
 void ejercicio11()
 {
-    //Intercalar dos pilas ordenadas en forma creciente (ORDENADA1 y ORDENADA2) dejando el resultado en una pila también ordenada en forma creciente (ORDENADAFINAL).
+    //Intercalar dos pilas ordenadas en forma creciente (ORDENADA1 y ORDENADA2) dejando el resultado en una pila tambiÃ©n ordenada en forma creciente (ORDENADAFINAL).
     Pila pila1,pila2,ordenada1,ordenada2,ordenadaFinal;
     inicpila(&pila1);
     inicpila(&pila2);
@@ -472,14 +511,14 @@ void ejercicio11()
 }
 void ejercicio12()
 {
-    //Dada la pila ORIGEN ordenarla en forma ascendente por método de inserción dejando el resultado en la pila ORIGEN. Para este ejercicio usar lo aprendido para el ejercicio 5.
+    //Dada la pila ORIGEN ordenarla en forma ascendente por mÃ©todo de inserciÃ³n dejando el resultado en la pila ORIGEN. Para este ejercicio usar lo aprendido para el ejercicio 5.
 }
 void ejercicio13()
 {
     //Suponer un juego de cartas en el que en cada mano se reparten dos cartas por jugador.
-    //Un jugador gana la mano cuando la suma de sus cartas es mayor que las del contrario y al hacerlo coloca todas las cartas (las de él y las de su rival) en su pila de puntos.
+    //Un jugador gana la mano cuando la suma de sus cartas es mayor que las del contrario y al hacerlo coloca todas las cartas (las de Ã©l y las de su rival) en su pila de puntos.
     //En caso de empate (y para simplificar) siempre gana el jugador1.
-    //Simular la ejecución del juego de tal manera que dada una pila MAZO (con un número de elementos múltiplo de cuatro) distribuya las cartas en las pilas PUNTOSJUG1 y PUNTOSJUG2 como si estos hubieran jugado.
+    //Simular la ejecuciÃ³n del juego de tal manera que dada una pila MAZO (con un nÃºmero de elementos mÃºltiplo de cuatro) distribuya las cartas en las pilas PUNTOSJUG1 y PUNTOSJUG2 como si estos hubieran jugado.
     //Utilizar las pilas auxiliares que crea conveniente.
     int i,j1,j2,m,manos,suma1=0,suma2=0,puntaje1=0,puntaje2=0;
     char continuar;
